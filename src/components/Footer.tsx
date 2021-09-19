@@ -1,6 +1,6 @@
 import React, { useContext } from "react";
 import { Neo4jContext } from "use-neo4j";
-import { version } from '../../package.json'
+
 
 export default function Footer() {
     const context = useContext(Neo4jContext)
@@ -21,7 +21,7 @@ export default function Footer() {
     return (
         <div className="container m-auto">
             <div className="text-xs border-t border-gray-400 p-4 bg-gray-100">
-                Charts v{version}
+                Charts
                 {host}
             </div>
         </div>

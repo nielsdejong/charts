@@ -1,79 +1,16 @@
-import { gql } from "@apollo/client";
+
+import { OperationCanceledException } from 'typescript';
 import { client, neo4jDesktopGraphAppId, relateProjectId, relateApiToken, relateUrl } from './client';
 
-const GET_PROJECT_FILES = gql`
-    query GetProject($projectId: String!) {
-        getProject(name: $projectId) {
-            id
-            files {
-                name
-                directory
-                extension
-                downloadToken
-            }
-        }
-    }
-`
+const GET_PROJECT_FILES = null;
 
-const ADD_PROJECT_FILE = gql`
-    mutation AddFile(
-        $projectId: String!
-        $fileUpload: Upload!
-        $destination: String
-        $overwrite: Boolean
-    ) {
-        addProjectFile(
-            name: $projectId
-            fileUpload: $fileUpload
-            destination: $destination
-            overwrite: $overwrite
-        ) {
-            name
-            directory
-            extension
-            downloadToken
-        }
-    }
-`
 
-const DELETE_PROJECT_FILE = gql`
-    mutation RemoveFile($projectId: String!, $filePath: String!) {
-        removeProjectFile(name: $projectId, filePath: $filePath) {
-            name
-            directory
-        }
-    }
-`
+const ADD_PROJECT_FILE = null;
 
+const DELETE_PROJECT_FILE = null;
 
 export function saveFile(filePath: string, contents: string) {
-    return client.mutate({
-        mutation: DELETE_PROJECT_FILE,
-        variables: {
-            projectId: relateProjectId,
-            filePath: filePath,
-        }
-    })
-        .catch(e => console.log(e))
-        .then(() => {
-            console.log({
-                mutation: ADD_PROJECT_FILE,
-                variables: {
-                    projectId: relateProjectId,
-                    fileUpload: new File([contents], filePath),
-                }
-            });
-
-            return client.mutate({
-                mutation: ADD_PROJECT_FILE,
-                variables: {
-                    projectId: relateProjectId,
-                    fileUpload: new File([contents], filePath),
-                }
-            })
-                .then(res => console.log(res))
-                .catch(e => console.error(e));
-        })
+    return null;
 }
 
 interface ProjectFile {
@@ -88,19 +25,7 @@ export function getProjectFiles(): Promise<ProjectFile[]> {
         return Promise.resolve([])
     }
 
-    return client.query({
-        query: GET_PROJECT_FILES,
-        variables: {
-            projectId: relateProjectId,
-            filterValue: 'json',
-        }
-    })
-        .then(res => res.data.getProject.files)
-        .catch(e => {
-            console.log('Error while getting project files', e)
-
-            return []
-        })
+    throw OperationCanceledException;
 }
 
 export function getFileContents(file: string, token: string): Promise<string | void> {
