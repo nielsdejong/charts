@@ -1,5 +1,6 @@
 {
   "name": "@graphapps/charts",
+  "main": "dist/index.js",
   "version": "1.0.11",
   "homepage": "./",
   "dependencies": {
