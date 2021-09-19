@@ -59,7 +59,7 @@ export default function BarReport(props: ChartReportProps) {
         margin={{ top: 24, right: 128, bottom: 38, left: 36 }}
         padding={0.3}
         valueScale={{ type: 'linear' }}
-        colors={{ scheme: 'nivo' }}
+        colors={{ scheme: 'set2' }}
         axisTop={null}
         axisRight={null}
         axisBottom={{
