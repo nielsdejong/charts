@@ -7,6 +7,7 @@ export default interface ReportProps {
 export interface ChartReportProps extends ReportProps {
     stacked?: boolean;
     layout?: 'horizontal' | 'vertical';
+    legend?: false;
     config?: Record<string, any>
 
 }
