@@ -1,11 +1,11 @@
 import React from 'react'
 import { ResponsiveBar } from '@nivo/bar'
-import { ChartReportProps } from './ReportProps'
+import { ChartReportProps, ExtendedChartReportProps } from './ReportProps'
 import { checkResultKeys, recordToNative } from '../../utils'
 import ReportError from './error'
 import Loading from '../Loading'
 
-export default function BarReport(props: ChartReportProps) {
+export default function BarReport(props: ExtendedChartReportProps) {
     const { records, first } = props
 
     if ( !first ) {

@@ -7,6 +7,10 @@ export default interface ReportProps {
 export interface ChartReportProps extends ReportProps {
     stacked?: boolean;
     layout?: 'horizontal' | 'vertical';
-    // legend?: boolean;
     config?: Record<string, any>
+}
+
+// NeoDash Extension
+export interface ExtendedChartReportProps extends ChartReportProps {
+    legend?: boolean;
 }
