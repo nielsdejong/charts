@@ -50,31 +50,8 @@ export default function BarReport(props: ExtendedChartReportProps) {
             return row
         })
 
-    const legends = (props.legend) ? [
-        {
-            dataFrom: 'keys',
-            anchor: 'bottom-right',
-            direction: 'column',
-            justify: true,
-            translateX: 120,
-            translateY: 0,
-            itemsSpacing: 2,
-            itemWidth: 100,
-            itemHeight: 20,
-            itemDirection: 'right-to-left',
-            itemOpacity: 0.85,
-            symbolSize: 20,
-            effects: [
-                {
-                    on: 'hover',
-                    style: {
-                        itemOpacity: 1
-                    }
-                }
-            ]
-        }
-    ] : [];
-
+    // const legends = (props.legend) ?  : [];
+        
     return <ResponsiveBar
         layout={props.layout}
         groupMode={props.stacked ? 'stacked' : 'grouped'}
@@ -100,7 +77,30 @@ export default function BarReport(props: ExtendedChartReportProps) {
         labelSkipWidth={12}
         labelSkipHeight={12}
         labelTextColor={{ from: 'color', modifiers: [ [ 'darker', 1.6 ] ] }}
-        legends={legends}
+        legends={ (props.legend) ? [
+            {
+                dataFrom: 'keys',
+                anchor: 'bottom-right',
+                direction: 'column',
+                justify: true,
+                translateX: 120,
+                translateY: 0,
+                itemsSpacing: 2,
+                itemWidth: 100,
+                itemHeight: 20,
+                itemDirection: 'right-to-left',
+                itemOpacity: 0.85,
+                symbolSize: 20,
+                effects: [
+                    {
+                        on: 'hover',
+                        style: {
+                            itemOpacity: 1
+                        }
+                    }
+                ]
+            }
+        ] : []}
         animate={false}
         motionStiffness={90}
         motionDamping={15}
