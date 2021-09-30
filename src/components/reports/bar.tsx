@@ -49,8 +49,8 @@ export default function BarReport(props: ExtendedChartReportProps) {
 
             return row
         })
-
-    // const legends = (props.legend) ?  : [];
+    console.log(props)
+    console.log(props.legend)
         
     return <ResponsiveBar
         layout={props.layout}
@@ -58,7 +58,7 @@ export default function BarReport(props: ExtendedChartReportProps) {
         data={data}
         keys={keys}
         indexBy="index"
-        margin={{ top: 24, right: 128, bottom: 38, left: 36 }}
+        margin={{ top: 24, right: (props.legend) ? 128 : 24, bottom: 38, left: 24 }}
         padding={0.3}
         valueScale={{ type: 'linear' }}
         colors={{ scheme: 'set2' }}
@@ -67,7 +67,7 @@ export default function BarReport(props: ExtendedChartReportProps) {
         axisBottom={{
             tickSize: 5,
             tickPadding: 5,
-            tickRotation: 0,
+            tickRotation: 45,
         }}
         axisLeft={{
             tickSize: 5,
