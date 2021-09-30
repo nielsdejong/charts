@@ -49,16 +49,22 @@ export default function BarReport(props: ExtendedChartReportProps) {
 
             return row
         })
-    console.log(props)
-    console.log(props.legend)
-        
+
+    const settings = (props.settings) ? props.settings : {};
+    const legendWidth = (settings["legendWidth"]) ? settings["legendWidth"] : 128;
+    const marginRight = (settings["marginRight"]) ? settings["marginRight"] : 24;
+    const marginLeft = (settings["marginLeft"]) ? settings["marginLeft"] : 36;
+    const marginTop = (settings["marginTop"]) ? settings["marginTop"] : 24;
+    const marginBottom = (settings["marginBottom"]) ? settings["marginBottom"] : 38;
+    const legend = (settings["legend"]) ? settings["legend"] : 38;
+
     return <ResponsiveBar
         layout={props.layout}
         groupMode={props.stacked ? 'stacked' : 'grouped'}
         data={data}
         keys={keys}
         indexBy="index"
-        margin={{ top: 24, right: (props.legend) ? 128 : 24, bottom: 38, left: 24 }}
+        margin={{ top: marginTop, right: (legend) ? legendWidth + marginRight : marginRight, bottom: marginBottom, left: marginLeft }}
         padding={0.3}
         valueScale={{ type: 'linear' }}
         colors={{ scheme: 'set2' }}
@@ -77,7 +83,7 @@ export default function BarReport(props: ExtendedChartReportProps) {
         labelSkipWidth={12}
         labelSkipHeight={12}
         labelTextColor={{ from: 'color', modifiers: [ [ 'darker', 1.6 ] ] }}
-        legends={ (props.legend) ? [
+        legends={ (legend) ? [
             {
                 dataFrom: 'keys',
                 anchor: 'bottom-right',
