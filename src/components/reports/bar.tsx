@@ -58,7 +58,8 @@ export default function BarReport(props: ExtendedChartReportProps) {
     const marginBottom = (settings["marginBottom"]) ? settings["marginBottom"] : 38;
     const legend = (settings["legend"]) ? settings["legend"] : false;
     const labelRotation = (settings["labelRotation"]) ? settings["labelRotation"] : 45;
-    const colorScheme = (settings["colorScheme"]) ? settings["colorScheme"] : 'set2';
+    const labelSkipSize = (settings["barValues"]) ? 12 : 2000;
+    const colorScheme = (settings["colors"]) ? settings["colors"] : 'set2';
 
     return <ResponsiveBar
         layout={props.layout}
@@ -82,8 +83,8 @@ export default function BarReport(props: ExtendedChartReportProps) {
             tickPadding: 5,
             tickRotation: 0,
         }}
-        labelSkipWidth={12}
-        labelSkipHeight={12}
+        labelSkipWidth={labelSkipSize}
+        labelSkipHeight={labelSkipSize}
         labelTextColor={{ from: 'color', modifiers: [ [ 'darker', 1.6 ] ] }}
         legends={ (legend) ? [
             {
