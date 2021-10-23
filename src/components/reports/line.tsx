@@ -20,13 +20,17 @@ export default function LineReport(props: ExtendedChartReportProps) {
     const legend = (settings["legend"]) ? settings["legend"] : false;
 
     const legendWidth = (settings["legendWidth"]) ? settings["legendWidth"] : 128;
+    const curve = (settings["curve"]) ? settings["curve"] : "linear";
     const marginRight = (settings["marginRight"]) ? settings["marginRight"] : 24;
     const marginLeft = (settings["marginLeft"]) ? settings["marginLeft"] : 36;
     const marginTop = (settings["marginTop"]) ? settings["marginTop"] : 24;
-    const marginBottom = (settings["marginBottom"]) ? settings["marginBottom"] : 62;
+    const marginBottom = (settings["marginBottom"]) ? settings["marginBottom"] : 40;
+    const lineWidth = (settings["lineWidth"]) ? settings["lineWidth"] : 2;
+    const pointSize = (settings["pointSize"]) ? settings["pointSize"] : 10;
+    const showGrid = (settings["showGrid"]) ? settings["showGrid"] : true;
 
     if (!keys.length) {
-        return <ReportError error={{ message: 'This report was expecting three columns' }} />
+        return <ReportError error={{ message: '' }} />
     }
 
     const data: LineChartData[] = keys.map(key => ({
@@ -50,13 +54,13 @@ export default function LineReport(props: ExtendedChartReportProps) {
 
             <ResponsiveLine
                 data={data}
-                margin={{ top: marginTop, right: (legend) ? legendWidth + marginRight : marginRight, bottom: marginBottom, left: marginLeft }}
-                xScale={{ type: 'point' }}
+                margin={{ top: marginTop, right: marginRight, bottom: marginBottom, left: marginLeft }}
+                xScale={{ type: 'linear', min: 'auto', max: 'auto' }}
                 yScale={{ type: 'linear', min: 'auto', max: 'auto', stacked: true, reverse: false }}
-                curve="cardinal"
+                curve={curve}
                 yFormat=" >-.0r"
-                enableGridX={false}
-                enableGridY={false}
+                enableGridX={showGrid} 
+                enableGridY={showGrid} 
                 axisTop={null}
                 axisRight={null}
                 axisBottom={{
@@ -65,8 +69,13 @@ export default function LineReport(props: ExtendedChartReportProps) {
                     tickPadding: 12,
                     tickRotation: 0,
                 }}
-                axisLeft={null}
-                pointSize={10}
+                axisLeft={{
+                    tickSize: 6,
+                    tickPadding: 12,
+                    tickRotation: 0,
+                }}
+                pointSize={pointSize}
+                lineWidth={lineWidth}
                 pointColor="white"
 
                 colors={{ scheme: colorScheme }}
@@ -83,7 +92,7 @@ export default function LineReport(props: ExtendedChartReportProps) {
                         translateY: 0,
                         itemsSpacing: 0,
                         itemDirection: 'right-to-left',
-                        itemWidth: legendWidth-48,
+                        itemWidth: legendWidth,
                         itemHeight: 20,
                         itemOpacity: 0.75,
                         symbolSize: 6,
