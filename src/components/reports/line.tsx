@@ -11,11 +11,12 @@ interface LineChartData {
 
 export default function LineReport(props: ChartReportProps) {
     const { records, first, } = props
-
+    console.log("err14")
     const label = first!.keys[0] as string
     const keys = first!.keys.slice(1)
 
     if ( !keys.length ) {
+        console.log("err19")
         return <ReportError error={{message: 'This report was expecting three columns'}} />
     }
 
@@ -24,7 +25,7 @@ export default function LineReport(props: ChartReportProps) {
         id: key as string,
         data: []
     }))
-
+    console.log(data)
     records.forEach((row) => {
         keys.forEach(key => {
             const index = data.findIndex(item => (item as Record<string, any>).id === key)
@@ -34,7 +35,7 @@ export default function LineReport(props: ChartReportProps) {
             data[ index ].data.push({ x, y })
         })
     })
-
+    console.log(data)
     return (
         <div className="h-full w-full overflow-hidden">
             <ResponsiveLine
