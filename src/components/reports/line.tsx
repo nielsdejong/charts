@@ -10,7 +10,7 @@ interface LineChartData {
 }
 
 export default function LineReport(props: ExtendedChartReportProps) {
-    const { records, first, } = props
+    const { records, first } = props
 
     const label = first!.keys[0] as string
     const keys = first!.keys.slice(1)
