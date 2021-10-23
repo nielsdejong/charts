@@ -55,7 +55,7 @@ export default function BarReport(props: ExtendedChartReportProps) {
     const marginRight = (settings["marginRight"]) ? settings["marginRight"] : 24;
     const marginLeft = (settings["marginLeft"]) ? settings["marginLeft"] : 36;
     const marginTop = (settings["marginTop"]) ? settings["marginTop"] : 24;
-    const marginBottom = (settings["marginBottom"]) ? settings["marginBottom"] : 38;
+    const marginBottom = (settings["marginBottom"]) ? settings["marginBottom"] : 62;
     const legend = (settings["legend"]) ? settings["legend"] : false;
     const labelRotation = (settings["labelRotation"]) ? settings["labelRotation"] : 45;
     const labelSkipSize = (settings["barValues"]) ? 1 : 2000;
@@ -95,7 +95,7 @@ export default function BarReport(props: ExtendedChartReportProps) {
                 translateX: 120,
                 translateY: 0,
                 itemsSpacing: 2,
-                itemWidth: 100,
+                itemWidth: legendWidth-28,
                 itemHeight: 20,
                 itemDirection: 'right-to-left',
                 itemOpacity: 0.85,

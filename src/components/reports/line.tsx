@@ -1,6 +1,6 @@
 import React from 'react'
 import { ResponsiveLine } from '@nivo/line'
-import { ChartReportProps } from './ReportProps'
+import { ChartReportProps, ExtendedChartReportProps } from './ReportProps'
 import { recordToNative } from '../../utils'
 import ReportError from './error'
 
@@ -9,15 +9,24 @@ interface LineChartData {
     data: Record<any, any>[]
 }
 
-export default function LineReport(props: ChartReportProps) {
-    const { records, first, } = props
-    console.log("err14")
+export default function LineReport(props: ExtendedChartReportProps) {
+    const { records, first } = props
+
     const label = first!.keys[0] as string
     const keys = first!.keys.slice(1)
+    const settings = (props.settings) ? props.settings : {};
 
-    if ( !keys.length ) {
-        console.log("err19")
-        return <ReportError error={{message: 'This report was expecting three columns'}} />
+    const colorScheme = (settings["colors"]) ? settings["colors"] : 'set2';
+    const legend = (settings["legend"]) ? settings["legend"] : false;
+
+    const legendWidth = (settings["legendWidth"]) ? settings["legendWidth"] : 128;
+    const marginRight = (settings["marginRight"]) ? settings["marginRight"] : 24;
+    const marginLeft = (settings["marginLeft"]) ? settings["marginLeft"] : 36;
+    const marginTop = (settings["marginTop"]) ? settings["marginTop"] : 24;
+    const marginBottom = (settings["marginBottom"]) ? settings["marginBottom"] : 62;
+
+    if (!keys.length) {
+        return <ReportError error={{ message: 'This report was expecting three columns' }} />
     }
 
     const data: LineChartData[] = keys.map(key => ({
@@ -25,22 +34,23 @@ export default function LineReport(props: ChartReportProps) {
         id: key as string,
         data: []
     }))
-    console.log(data)
+
     records.forEach((row) => {
         keys.forEach(key => {
             const index = data.findIndex(item => (item as Record<string, any>).id === key)
             const x: string | number = recordToNative(row.get(label)) || 0
             const y: any = recordToNative(row.get(key)) || 0
 
-            data[ index ].data.push({ x, y })
+            data[index].data.push({ x, y })
         })
     })
-    console.log(data)
+
     return (
-        <div className="h-full w-full overflow-hidden">
+        <div className="h-full w-full overflow-hidden" style={{ height: "100%" }}>
+
             <ResponsiveLine
                 data={data}
-                margin={{ top: 24, right: 24, bottom: 38, left: 24 }}
+                margin={{ top: marginTop, right: (legend) ? legendWidth + marginRight : marginRight, bottom: marginBottom, left: marginLeft }}
                 xScale={{ type: 'point' }}
                 yScale={{ type: 'linear', min: 'auto', max: 'auto', stacked: true, reverse: false }}
                 curve="cardinal"
@@ -58,11 +68,13 @@ export default function LineReport(props: ChartReportProps) {
                 axisLeft={null}
                 pointSize={10}
                 pointColor="white"
+
+                colors={{ scheme: colorScheme }}
                 pointBorderWidth={2}
                 pointBorderColor={{ from: 'serieColor' }}
                 pointLabelYOffset={-12}
                 useMesh={true}
-                legends={[
+                legends={(legend) ? [
                     {
                         anchor: 'top-right',
                         direction: 'row',
@@ -71,7 +83,7 @@ export default function LineReport(props: ChartReportProps) {
                         translateY: 0,
                         itemsSpacing: 0,
                         itemDirection: 'right-to-left',
-                        itemWidth: 80,
+                        itemWidth: legendWidth-48,
                         itemHeight: 20,
                         itemOpacity: 0.75,
                         symbolSize: 6,
@@ -87,7 +99,7 @@ export default function LineReport(props: ChartReportProps) {
                             }
                         ]
                     }
-                ]}
+                ] : []}
 
                 {...props.config}
             />
