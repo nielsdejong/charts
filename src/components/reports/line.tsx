@@ -1,6 +1,6 @@
 import React from 'react'
 import { ResponsiveLine } from '@nivo/line'
-import { ChartReportProps, ExtendedChartReportProps } from './ReportProps'
+import { ChartReportProps } from './ReportProps'
 import { recordToNative } from '../../utils'
 import ReportError from './error'
 
@@ -9,16 +9,12 @@ interface LineChartData {
     data: Record<any, any>[]
 }
 
-export default function LineReport(props: ExtendedChartReportProps) {
-    const { records, first } = props
+export default function LineReport(props: ChartReportProps) {
+    const { records, first, } = props
 
     const label = first!.keys[0] as string
     const keys = first!.keys.slice(1)
-    const settings = (props.settings) ? props.settings : {};
-    
-    const colorScheme = (settings["colors"]) ? settings["colors"] : 'set2';
-    const legend = (settings["legend"]) ? settings["legend"] : false;
-    
+
     if ( !keys.length ) {
         return <ReportError error={{message: 'This report was expecting three columns'}} />
     }
@@ -61,13 +57,11 @@ export default function LineReport(props: ExtendedChartReportProps) {
                 axisLeft={null}
                 pointSize={10}
                 pointColor="white"
-
-                colors={{ scheme: colorScheme }}
                 pointBorderWidth={2}
                 pointBorderColor={{ from: 'serieColor' }}
                 pointLabelYOffset={-12}
                 useMesh={true}
-                legends={ (legend) ? [
+                legends={[
                     {
                         anchor: 'top-right',
                         direction: 'row',
@@ -92,7 +86,7 @@ export default function LineReport(props: ExtendedChartReportProps) {
                             }
                         ]
                     }
-                ] : []}
+                ]}
 
                 {...props.config}
             />
