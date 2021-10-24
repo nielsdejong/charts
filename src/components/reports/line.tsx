@@ -17,9 +17,9 @@ export default function LineReport(props: ExtendedChartReportProps) {
     const settings = (props.settings) ? props.settings : {};
 
     const colorScheme = (settings["colors"]) ? settings["colors"] : 'set2';
-    const legend = (settings["legend"]) ? settings["legend"] : false;
+    const legend = (settings["legend"]  != undefined) ? settings["legend"] : false;
 
-    const legendWidth = (settings["legendWidth"]) ? settings["legendWidth"] : 128;
+    const legendWidth = (settings["legendWidth"]) ? settings["legendWidth"] : 70;
     const curve = (settings["curve"]) ? settings["curve"] : "linear";
     const marginRight = (settings["marginRight"]) ? settings["marginRight"] : 24;
     const marginLeft = (settings["marginLeft"]) ? settings["marginLeft"] : 36;
@@ -27,14 +27,13 @@ export default function LineReport(props: ExtendedChartReportProps) {
     const marginBottom = (settings["marginBottom"]) ? settings["marginBottom"] : 40;
     const lineWidth = (settings["lineWidth"]) ? settings["lineWidth"] : 2;
     const pointSize = (settings["pointSize"]) ? settings["pointSize"] : 10;
-    const showGrid = (settings["showGrid"]) ? settings["showGrid"] : true;
+    const showGrid = (settings["showGrid"] != undefined) ? settings["showGrid"] : true;
 
     if (!keys.length) {
         return <ReportError error={{ message: '' }} />
     }
 
     const data: LineChartData[] = keys.map(key => ({
-        // TODO: colour
         id: key as string,
         data: []
     }))
@@ -88,8 +87,8 @@ export default function LineReport(props: ExtendedChartReportProps) {
                         anchor: 'top-right',
                         direction: 'row',
                         justify: false,
-                        translateX: 0,
-                        translateY: 0,
+                        translateX: -10,
+                        translateY: -30,
                         itemsSpacing: 0,
                         itemDirection: 'right-to-left',
                         itemWidth: legendWidth,
