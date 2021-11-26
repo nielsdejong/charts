@@ -8,13 +8,13 @@ import Loading from '../Loading'
 export default function BarReport(props: ExtendedChartReportProps) {
     const { records, first } = props
 
-    if ( !first ) {
+    if (!first) {
         return <Loading />
     }
 
     const error = checkResultKeys(first, ['index', 'key', 'value'])
 
-    if ( error !== false ) {
+    if (error !== false) {
         return <ReportError error={error} />
     }
 
@@ -27,23 +27,23 @@ export default function BarReport(props: ExtendedChartReportProps) {
         const key = recordToNative(row.get('key'))
         const value = recordToNative(row.get('value'))
 
-        if ( !keys.includes(key) ) {
+        if (!keys.includes(key)) {
             keys.push(key)
         }
 
-        if ( idx > -1 ) {
-            data[ idx ][ key ] = value
+        if (idx > -1) {
+            data[idx][key] = value
         }
         else {
-            data.push({ index, [key]: value  })
+            data.push({ index, [key]: value })
         }
 
         return data
     }, [])
         .map(row => {
             keys.forEach(key => {
-                if ( !row.hasOwnProperty(key) ) {
-                    row[ key ] = 0
+                if (!row.hasOwnProperty(key)) {
+                    row[key] = 0
                 }
             })
 
@@ -53,13 +53,16 @@ export default function BarReport(props: ExtendedChartReportProps) {
     const settings = (props.settings) ? props.settings : {};
     const legendWidth = (settings["legendWidth"]) ? settings["legendWidth"] : 128;
     const marginRight = (settings["marginRight"]) ? settings["marginRight"] : 24;
-    const marginLeft = (settings["marginLeft"]) ? settings["marginLeft"] : 36;
+    const marginLeft = (settings["marginLeft"]) ? settings["marginLeft"] : 50;
     const marginTop = (settings["marginTop"]) ? settings["marginTop"] : 24;
     const marginBottom = (settings["marginBottom"]) ? settings["marginBottom"] : 40;
     const legend = (settings["legend"]) ? settings["legend"] : false;
-    const labelRotation = (settings["labelRotation"]) ? settings["labelRotation"] : 45;
+    const labelRotation = (settings["labelRotation"] != undefined) ? settings["labelRotation"] : 45;
     const labelSkipSize = (settings["barValues"]) ? 1 : 2000;
     const colorScheme = (settings["colors"]) ? settings["colors"] : 'set2';
+    const valueScale = (settings["valueScale"]) ? settings["valueScale"] : 'linear';
+    const minValue = (settings["minValue"]) ? settings["minValue"] : 'auto';
+    const maxValue = (settings["maxValue"]) ? settings["maxValue"] : 'auto';
 
     return <ResponsiveBar
         layout={props.layout}
@@ -69,7 +72,9 @@ export default function BarReport(props: ExtendedChartReportProps) {
         indexBy="index"
         margin={{ top: marginTop, right: (legend) ? legendWidth + marginRight : marginRight, bottom: marginBottom, left: marginLeft }}
         padding={0.3}
-        valueScale={{ type: 'linear' }}
+        valueScale={{ type: valueScale }}
+        minValue={minValue}
+        maxValue={maxValue}
         colors={{ scheme: colorScheme }}
         axisTop={null}
         axisRight={null}
@@ -85,8 +90,8 @@ export default function BarReport(props: ExtendedChartReportProps) {
         }}
         labelSkipWidth={labelSkipSize}
         labelSkipHeight={labelSkipSize}
-        labelTextColor={{ from: 'color', modifiers: [ [ 'darker', 1.6 ] ] }}
-        legends={ (legend) ? [
+        labelTextColor={{ from: 'color', modifiers: [['darker', 1.6]] }}
+        legends={(legend) ? [
             {
                 dataFrom: 'keys',
                 anchor: 'bottom-right',
@@ -95,7 +100,7 @@ export default function BarReport(props: ExtendedChartReportProps) {
                 translateX: 120,
                 translateY: 0,
                 itemsSpacing: 2,
-                itemWidth: legendWidth-28,
+                itemWidth: legendWidth - 28,
                 itemHeight: 20,
                 itemDirection: 'right-to-left',
                 itemOpacity: 0.85,

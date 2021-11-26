@@ -17,7 +17,16 @@ export default function LineReport(props: ExtendedChartReportProps) {
     const settings = (props.settings) ? props.settings : {};
 
     const colorScheme = (settings["colors"]) ? settings["colors"] : 'set2';
-    const legend = (settings["legend"]  != undefined) ? settings["legend"] : false;
+    const xScale = (settings["xScale"]) ? settings["xScale"] : 'linear';
+    const yScale = (settings["yScale"]) ? settings["yScale"] : 'linear';
+    const xScaleLogBase = (settings["xScaleLogBase"]) ? settings["xScaleLogBase"] : 10;
+    const yScaleLogBase = (settings["yScaleLogBase"]) ? settings["yScaleLogBase"] : 10;
+    const minXValue = (settings["minXValue"]) ? settings["minXValue"] : 'auto';
+    const maxXValue = (settings["maxXValue"]) ? settings["maxXValue"] : 'auto';
+    const minYValue = (settings["minYValue"]) ? settings["minYValue"] : 'auto';
+    const maxYValue = (settings["maxYValue"]) ? settings["maxYValue"] : 'auto';
+
+    const legend = (settings["legend"] != undefined) ? settings["legend"] : false;
 
     const legendWidth = (settings["legendWidth"]) ? settings["legendWidth"] : 70;
     const curve = (settings["curve"]) ? settings["curve"] : "linear";
@@ -54,12 +63,17 @@ export default function LineReport(props: ExtendedChartReportProps) {
             <ResponsiveLine
                 data={data}
                 margin={{ top: marginTop, right: marginRight, bottom: marginBottom, left: marginLeft }}
-                xScale={{ type: 'linear', min: 'auto', max: 'auto' }}
-                yScale={{ type: 'linear', min: 'auto', max: 'auto', stacked: true, reverse: false }}
+                xScale={xScale == 'linear' ?
+                    { type: xScale, min: minXValue, max: maxXValue } :
+                    { type: xScale, min: minXValue, max: maxXValue, base: xScaleLogBase }
+                }
+                yScale={yScale == 'linear' ?
+                    { type: yScale, min: minYValue, max: maxYValue, stacked: true, reverse: false } :
+                    { type: yScale, min: minYValue, max: maxYValue, base: yScaleLogBase }}
                 curve={curve}
                 yFormat=" >-.0r"
-                enableGridX={showGrid} 
-                enableGridY={showGrid} 
+                enableGridX={showGrid}
+                enableGridY={showGrid}
                 axisTop={null}
                 axisRight={null}
                 axisBottom={{
@@ -88,7 +102,7 @@ export default function LineReport(props: ExtendedChartReportProps) {
                         direction: 'row',
                         justify: false,
                         translateX: -10,
-                        translateY: -30,
+                        translateY: -35,
                         itemsSpacing: 0,
                         itemDirection: 'right-to-left',
                         itemWidth: legendWidth,
