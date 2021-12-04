@@ -68,10 +68,9 @@ export default function LineReport(props: ExtendedChartReportProps) {
                     { type: xScale, min: minXValue, max: maxXValue, constant: xScaleLogBase, base: xScaleLogBase }
                 }
                 yScale={yScale == 'linear' ?
-                    { type: yScale, min: minYValue, max: maxYValue, stacked: true, reverse: false } :
+                    { type: yScale, min: minYValue, max: maxYValue, stacked: false, reverse: false } :
                     { type: yScale, min: minYValue, max: maxYValue,  constant: xScaleLogBase, base: yScaleLogBase }}
                 curve={curve}
-                yFormat=" >-.0r"
                 enableGridX={showGrid}
                 enableGridY={showGrid}
                 axisTop={null}
